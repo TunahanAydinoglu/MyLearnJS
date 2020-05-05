@@ -1,0 +1,10 @@
+asalsayi = sadece kendisine ve bire bölünebilen 
+başka hiçbir sayıya tam bölünemeyen sayılara asal sayılar deriz 
+
+0.başla
+1. sayı geldi 
+2. kendisne bölünüyosa asaldır
+3. başka hiçbir sayıya tam bölünemicek 
+4. bitti
+
+

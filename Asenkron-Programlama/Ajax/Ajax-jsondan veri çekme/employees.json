@@ -1,0 +1,17 @@
+[
+    {
+        "name":"Tunahan",
+        "department":"FullStack",
+        "salary":7000
+    },
+    {
+        "name":"Adem",
+        "department":"Frontend",
+        "salary":12000
+    },
+    {
+        "name":"Engin",
+        "department":"Backend",
+        "salary":8000
+    }
+]
