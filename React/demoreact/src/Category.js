@@ -3,15 +3,13 @@ import { ListGroup, ListGroupItem } from "reactstrap";
 
 
 class Category extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+  state = {
       categories: [
         { categoryId: 1, categoryName: "Beverages" },
         { categoryId: 2, categoryName: "Condiments" },
       ],
     };
-  }
+ 
   
   render() {
     return (
