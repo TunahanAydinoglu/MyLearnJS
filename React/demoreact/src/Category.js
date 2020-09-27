@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
 
+
 class Category extends Component {
   constructor(props) {
     super(props);
@@ -11,16 +12,22 @@ class Category extends Component {
       ],
     };
   }
+  
   render() {
     return (
       <div>
         <h3>{this.props.info.title}</h3>
         <ListGroup>
           {this.state.categories.map((category) => (
-            <ListGroupItem color="danger" key={category.categoryId}>
-            {category.categoryName}
-          </ListGroupItem>
+            <ListGroupItem
+              color="danger"
+              onClick={() => {this.props.changeCategory(category)} }
+              key={category.categoryId}
+            >
+              {category.categoryName}
+            </ListGroupItem>
           ))}
+          {this.props.currentCategory}
         </ListGroup>
       </div>
     );

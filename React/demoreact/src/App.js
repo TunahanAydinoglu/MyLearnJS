@@ -1,39 +1,44 @@
-import React from "react";
+import React, {Component}  from "react";
 import Category from "./Category";
 import Navi from "./Navi";
 import ProductList from "./ProductList";
 import { Container, Row, Col } from "reactstrap";
 
-function App() {
-  let infoProduct = {
-    title:"Product List"
+class App extends Component {
+state={
+  currentCategory:""
+}
+  changeCategory = (category)=>{
+    this.setState({ currentCategory: category.categoryName})
+}
+  render() {
+    let infoProduct = {
+      title: "Product List",
+    };
+    let infoCategory = {
+      title: "Category List",
+    };
+    let infoNavi = {
+      title: "Navi",
+    };
+    return (
+      <div>
+        <Container>
+          <Row>
+            <Navi info={infoNavi} />
+          </Row>
+          <Row>
+            <Col xs="3">
+              <Category changeCategory={this.changeCategory} currentCategory={this.state.currentCategory} info={infoCategory} />
+            </Col>
+            <Col xs="9">
+              <ProductList currentCategory={" - " + this.state.currentCategory} info={infoProduct} />
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
   }
-  let infoCategory = {
-    title:"Category List"
-  }
-  let infoNavi = {
-    title:"Navi"
-  }
-
- 
-
-  return (
-    <div>
-      <Container>
-        <Row>
-          <Navi info={infoNavi} />
-        </Row>
-        <Row>
-          <Col xs="3">
-            <Category info={infoCategory} />
-          </Col>
-          <Col xs="9">
-            <ProductList info={infoProduct} />
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  );
 }
 
 export default App;
