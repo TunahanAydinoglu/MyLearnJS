@@ -1,18 +1,19 @@
-import React, {Component}  from "react";
+import React, { Component } from "react";
 import Category from "./Category";
 import Navi from "./Navi";
 import ProductList from "./ProductList";
 import { Container, Row, Col } from "reactstrap";
 
 class App extends Component {
+  state = {
+    currentCategory: "",
+  };
 
-  state={
-    currentCategory:""
-  }
+  
 
-  changeCategory = (category)=>{
-    this.setState({ currentCategory: category.categoryName})
-}
+  changeCategory = (category) => {
+    this.setState({ currentCategory: category.categoryName });
+  };
   render() {
     let infoProduct = {
       title: "Product List",
@@ -31,10 +32,17 @@ class App extends Component {
           </Row>
           <Row>
             <Col xs="3">
-              <Category currentCategory={this.state.currentCategory} changeCategory={this.changeCategory} info={infoCategory} />
+              <Category
+                currentCategory={this.state.currentCategory}
+                changeCategory={this.changeCategory}
+                info={infoCategory}
+              />
             </Col>
             <Col xs="9">
-              <ProductList currentCategory={this.state.currentCategory} info={infoProduct} />
+              <ProductList
+                currentCategory={this.state.currentCategory}
+                info={infoProduct}
+              />
             </Col>
           </Row>
         </Container>
