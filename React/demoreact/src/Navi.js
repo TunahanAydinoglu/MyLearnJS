@@ -13,8 +13,7 @@ import {
   DropdownItem,
   Badge,
   Row,
-  Col,
-  Button,
+  Col
 } from "reactstrap";
 
 const Navi = (props) => {
