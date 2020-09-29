@@ -7,12 +7,23 @@ import { Container, Row, Col } from "reactstrap";
 class App extends Component {
   state = {
     currentCategory: "",
+    products:[]
   };
-
-  
-
+  componentDidMount(){
+    this.getProducts();
+}
+  getProducts = (categoryId) => {
+    let url = "http://localhost:3000/products";
+      if(categoryId){
+        url += "?categoryId="+categoryId;
+      }
+      fetch(url)
+      .then((response) => response.json())
+      .then((data) => this.setState({ products: data }));
+  };
   changeCategory = (category) => {
     this.setState({ currentCategory: category.categoryName });
+    this.getProducts(category.id)
   };
   render() {
     let infoProduct = {
@@ -40,6 +51,7 @@ class App extends Component {
             </Col>
             <Col xs="9">
               <ProductList
+              products={this.state.products}
                 currentCategory={this.state.currentCategory}
                 info={infoProduct}
               />

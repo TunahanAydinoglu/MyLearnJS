@@ -2,17 +2,8 @@ import React, { Component } from "react";
 import { Table } from "reactstrap";
 
 class ProductList extends Component {
-  state = {
-    products: [],
-  };
-  componentDidMount(){
-      this.getProducts();
-  }
-  getProducts = () => {
-    fetch("http://localhost:3000/products")
-      .then((response) => response.json())
-      .then((data) => this.setState({ products: data }));
-  };
+ 
+  
   render() {
     return (
       <div>
@@ -29,7 +20,7 @@ class ProductList extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.products.map((product) => ( 
+            {this.props.products.map((product) => ( 
               <tr key={product.id}>
               <th scope="row" >{product.id}</th>
               <td>{product.productName}</td>
