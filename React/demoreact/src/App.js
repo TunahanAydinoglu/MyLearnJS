@@ -7,23 +7,38 @@ import { Container, Row, Col } from "reactstrap";
 class App extends Component {
   state = {
     currentCategory: "",
-    products:[]
+    products: [],
+    cart: [],
   };
-  componentDidMount(){
+  componentDidMount() {
     this.getProducts();
-}
+  }
+  addToCart = (product) => {
+    let newCart = this.state.cart;
+    var addedItem = newCart.find((c) => c.product.id === product.id);
+    if (addedItem) {
+      addedItem.quantity += 1;
+    } else {
+      newCart.push({ product: product, quantity: 1 });
+    }
+    this.setState({ cart: newCart });
+  };
+  removeFromCart=(product)=>{
+    let newCart = this.state.cart.filter(c=>c.product.id!==product.id)
+    this.setState({cart:newCart});
+  }
   getProducts = (categoryId) => {
     let url = "http://localhost:3000/products";
-      if(categoryId){
-        url += "?categoryId="+categoryId;
-      }
-      fetch(url)
+    if (categoryId) {
+      url += "?categoryId=" + categoryId;
+    }
+    fetch(url)
       .then((response) => response.json())
       .then((data) => this.setState({ products: data }));
   };
   changeCategory = (category) => {
-    this.setState({ currentCategory: category.categoryName });
-    this.getProducts(category.id)
+    this.setState({ currentCategory: category });
+    this.getProducts(category.id);
   };
   render() {
     let infoProduct = {
@@ -38,9 +53,7 @@ class App extends Component {
     return (
       <div>
         <Container>
-          <Row>
-            <Navi info={infoNavi} />
-          </Row>
+          <Navi cart={this.state.cart} removeFromCart={this.removeFromCart} info={infoNavi} />
           <Row>
             <Col xs="3">
               <Category
@@ -51,7 +64,8 @@ class App extends Component {
             </Col>
             <Col xs="9">
               <ProductList
-              products={this.state.products}
+                addToCart={this.addToCart}
+                products={this.state.products}
                 currentCategory={this.state.currentCategory}
                 info={infoProduct}
               />

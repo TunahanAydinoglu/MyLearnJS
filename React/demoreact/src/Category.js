@@ -22,15 +22,13 @@ class Category extends Component {
         <h3>{this.props.info.title}</h3>
         <ListGroup>
           {this.state.categories.map((category) => (
-            <ListGroupItem
-              color="danger"
+            <ListGroupItem active={category.id === this.props.currentCategory.id?true:false}
               onClick={() => {this.props.changeCategory(category)} }
               key={category.id}
             >
               {category.categoryName}
             </ListGroupItem>
           ))}
-          {this.props.currentCategory}
         </ListGroup>
       </div>
     );

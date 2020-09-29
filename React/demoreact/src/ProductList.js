@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table } from "reactstrap";
+import { Table,Button } from "reactstrap";
 
 class ProductList extends Component {
  
@@ -7,7 +7,7 @@ class ProductList extends Component {
   render() {
     return (
       <div>
-        <h2>{this.props.info.title + " - " + this.props.currentCategory}</h2>
+        <h2>{this.props.info.title + " - " + this.props.currentCategory.categoryName}</h2>
         <Table>
           <thead>
             <tr>
@@ -17,6 +17,7 @@ class ProductList extends Component {
               <th>Quantity Per Unit</th>
               <th>Unit Price</th>
               <th>Unit In Stock</th>
+              <th>Add To Cart</th>
             </tr>
           </thead>
           <tbody>
@@ -28,6 +29,7 @@ class ProductList extends Component {
               <td>{product.quantityPerUnit}</td>
               <td>{product.unitPrice}</td>
               <td>{product.unitsInStock}</td>
+              <td> <Button onClick={()=>this.props.addToCart(product)} color="info">Add</Button></td>
             </tr>
             )
             )}
