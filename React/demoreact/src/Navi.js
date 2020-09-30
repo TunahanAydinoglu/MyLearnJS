@@ -25,15 +25,21 @@ const Navi = (props) => {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">reactstrap</NavbarBrand>
+        <NavbarBrand>
+          <Link to="">React</Link>
+        </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink href="/components/">Components</NavLink>
+              <NavLink>
+                <Link to="form1">Form 1</Link>
+              </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="#">GitHub</NavLink>
+              <NavLink>
+                <Link to="form2">Form 2</Link>
+              </NavLink>
             </NavItem>
           </Nav>
           <Nav navbar>

@@ -7,6 +7,8 @@ import alertify from "alertifyjs";
 import { Route, Switch } from "react-router-dom";
 import NotFound from "./NotFound";
 import CartList from "./CartList";
+import Form1 from "./Form1";
+import Form2 from "./Form2";
 
 class App extends Component {
   state = {
@@ -58,49 +60,53 @@ class App extends Component {
       title: "Navi",
     };
     return (
-      <div>
-        <Container>
-          <Navi
-            cart={this.state.cart}
-            removeFromCart={this.removeFromCart}
-            info={infoNavi}
-          />
-          <Row>
-            <Col xs="3">
-              <Category
-                currentCategory={this.state.currentCategory}
-                changeCategory={this.changeCategory}
-                info={infoCategory}
+      <Container>
+        <Navi
+          cart={this.state.cart}
+          removeFromCart={this.removeFromCart}
+          info={infoNavi}
+        />
+        <Row>
+          <Col xs="3">
+            <Category
+              currentCategory={this.state.currentCategory}
+              changeCategory={this.changeCategory}
+              info={infoCategory}
+            />
+          </Col>
+          <Col xs="9">
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={(props) => (
+                  <ProductList
+                    {...props}
+                    addToCart={this.addToCart}
+                    products={this.state.products}
+                    currentCategory={this.state.currentCategory}
+                    info={infoProduct}
+                  />
+                )}
               />
-            </Col>
-            <Col xs="9">
-              <Switch>
-                <Route
-                  exact
-                  path="/"
-                  render={(props) => (
-                    <ProductList
-                      {...props}
-                      addToCart={this.addToCart}
-                      products={this.state.products}
-                      currentCategory={this.state.currentCategory}
-                      info={infoProduct}
-                    />
-                  )}
-                />
-                <Route exact path="/cart" render={(props) => (
-                    <CartList
-                      {...props}
-                      removeFromCart={this.removeFromCart}
-                      cart={this.state.cart}
-                    />
-                  )} />
-                <Route component={NotFound} />
-              </Switch>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+              <Route
+                exact
+                path="/cart"
+                render={(props) => (
+                  <CartList
+                    {...props}
+                    removeFromCart={this.removeFromCart}
+                    cart={this.state.cart}
+                  />
+                )}
+              />
+              <Route exact path="/form1" component={Form1} />
+              <Route exact path="/form2" component={Form2} />
+              <Route component={NotFound} />
+            </Switch>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
