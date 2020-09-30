@@ -31,6 +31,7 @@ class App extends Component {
   removeFromCart = (product) => {
     let newCart = this.state.cart.filter((c) => c.product.id !== product.id);
     this.setState({ cart: newCart });
+    alertify.error(product.productName + " deleted from cart!", 2);
   };
   getProducts = (categoryId) => {
     let url = "http://localhost:3000/products";
@@ -45,6 +46,7 @@ class App extends Component {
     this.setState({ currentCategory: category });
     this.getProducts(category.id);
   };
+
   render() {
     let infoProduct = {
       title: "Product List",
@@ -86,7 +88,13 @@ class App extends Component {
                     />
                   )}
                 />
-                <Route exact path="/cart" component={CartList} />
+                <Route exact path="/cart" render={(props) => (
+                    <CartList
+                      {...props}
+                      removeFromCart={this.removeFromCart}
+                      cart={this.state.cart}
+                    />
+                  )} />
                 <Route component={NotFound} />
               </Switch>
             </Col>

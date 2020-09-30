@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Collapse,
   Navbar,
@@ -13,7 +14,7 @@ import {
   DropdownItem,
   Badge,
   Row,
-  Col
+  Col,
 } from "reactstrap";
 
 const Navi = (props) => {
@@ -44,8 +45,8 @@ const Navi = (props) => {
                 {props.cart.map((cartItem) => (
                   <DropdownItem key={cartItem.product.id}>
                     <Row>
-                      <Col>{cartItem.product.productName}</Col>
-                      <Col>
+                      <Col xs="9">{cartItem.product.productName}</Col>
+                      <Col xs="3">
                         <Badge color="warning">{cartItem.quantity}</Badge>{" "}
                         <Badge
                           onClick={() => props.removeFromCart(cartItem.product)}
@@ -58,7 +59,9 @@ const Navi = (props) => {
                   </DropdownItem>
                 ))}
                 <DropdownItem divider />
-                <DropdownItem>Reset</DropdownItem>
+                <DropdownItem>
+                  <Link to="cart">Go to Cart</Link>
+                </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
