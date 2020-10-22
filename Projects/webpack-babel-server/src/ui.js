@@ -12,10 +12,10 @@ export class UI {
     employees.forEach((emp) => {
       result += `
         <tr>
-             <td>${emp.id}</td>
              <td>${emp.name}</td>
              <td>${emp.department}</td>
              <td>${emp.salary}</td>
+             <td>${emp.id}</td>
              <td><a href="#" id = "update-employee" class= "btn btn-danger">Güncelle</a></td> 
              <td> <a href="#" id = "delete-employee" class= "btn btn-danger">Sil</a></td>
          </tr>
@@ -26,14 +26,17 @@ export class UI {
   addEmployeeToUI(emp){
       this.employeesList.innerHTML += `
       <tr>
-           <td>${emp.id}</td>
+           <td>${emp.salary}</td>
            <td>${emp.name}</td>
            <td>${emp.department}</td>
-           <td>${emp.salary}</td>
+           <td>${emp.id}</td>
            <td><a href="#" id = "update-employee" class= "btn btn-danger">Güncelle</a></td> 
            <td> <a href="#" id = "delete-employee" class= "btn btn-danger">Sil</a></td>
        </tr>
           `
+  }
+  deleteEmployeeFromUI(element){
+      element.remove();
   }
 
   clearInput(){
