@@ -1,1 +1,54 @@
-console.log("Test");
+import { Request } from "./request";
+import {UI} from "./ui.js";
+
+//Select Element
+const form = document.getElementById("employee-form");
+const nameInput = document.getElementById("name");
+const departmentInput = document.getElementById("department");
+const salaryInput = document.getElementById("salary");
+const employeesList = document.getElementById("employees");
+const updateEmployeeButton = document.getElementById("update");
+
+const request = new Request("http://localhost:3000/employees");
+const ui = new UI();
+
+eventListener();
+function eventListener(){
+    document.addEventListener("DOMContentLoader",getAllEmployees);
+}
+
+function getAllEmployees(){
+    request.get()
+    .then((employees) => console.log(employees))
+    .catch((err) => console.log(err));
+}
+
+
+
+
+
+// request
+//   .get()
+//   .then((employees) => console.log(employees))
+//   .catch((err) => console.log(err));
+
+// let postData = {
+//   name: "Semih Kalkan",
+//   department: ".Net Developer",
+//   salary: 23423,
+// };
+
+// request
+//   .post(postData)
+//   .then((employee) => console.log(employee))
+//   .catch((err) => console.log(err));
+
+// request
+//   .put(4, postData)
+//   .then((employee) => console.log(employee))
+//   .catch((err) => console.log(err));
+
+// request
+//   .delete(4)
+//   .then((message) => console.log(message))
+//   .catch((err) => console.log(err));
