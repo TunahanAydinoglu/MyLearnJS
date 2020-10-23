@@ -1,7 +1,7 @@
 export class UI {
   constructor() {
     this.employeesList = document.getElementById("employees");
-    this.update = document.getElementById("update");
+    this.updateButton = document.getElementById("update");
     this.nameInput = document.getElementById("name");
     this.salaryInput = document.getElementById("salary");
     this.departmentInput = document.getElementById("department");
@@ -23,25 +23,58 @@ export class UI {
     });
     this.employeesList.innerHTML = result;
   }
-  addEmployeeToUI(emp){
-      this.employeesList.innerHTML += `
+  addEmployeeToUI(emp) {
+    this.employeesList.innerHTML += `
       <tr>
-           <td>${emp.salary}</td>
            <td>${emp.name}</td>
            <td>${emp.department}</td>
+           <td>${emp.salary}</td>
            <td>${emp.id}</td>
            <td><a href="#" id = "update-employee" class= "btn btn-danger">Güncelle</a></td> 
            <td> <a href="#" id = "delete-employee" class= "btn btn-danger">Sil</a></td>
        </tr>
-          `
+          `;
   }
-  deleteEmployeeFromUI(element){
-      element.remove();
+  deleteEmployeeFromUI(element) {
+    element.remove();
   }
 
-  clearInput(){
-      this.nameInput.value="";
-      this.departmentInput.value="";
-      this.salaryInput.value="";
+  toggleUpdateButton(target) {
+    if (this.updateButton.style.display === "none") {
+      this.updateButton.style.display = "block";
+      this.addEmployeeInfoToInputs(target);
+    } else {
+      this.updateButton.style.display = "none";
+      this.clearInput();
+    }
+  }
+
+  addEmployeeInfoToInputs(target) {
+    const children = target.children;
+
+    this.nameInput.value = children[0].textContent;
+    this.departmentInput.value = children[1].textContent;
+    this.salaryInput.value = children[2].textContent;
+  }
+
+  updateEmployeeOnUI(emp, parent) {
+    parent.innerHTML = `
+      <tr>
+           <td>${emp.name}</td>
+           <td>${emp.department}</td>
+           <td>${emp.salary}</td>
+           <td>${emp.id}</td>
+           <td><a href="#" id = "update-employee" class= "btn btn-danger">Güncelle</a></td> 
+           <td> <a href="#" id = "delete-employee" class= "btn btn-danger">Sil</a></td>
+       </tr>
+          `;
+          this.toggleUpdateButton(parent);
+    this.clearInput();
+  }
+
+  clearInput() {
+    this.nameInput.value = "";
+    this.departmentInput.value = "";
+    this.salaryInput.value = "";
   }
 }

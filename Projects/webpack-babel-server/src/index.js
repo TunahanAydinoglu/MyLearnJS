@@ -12,12 +12,15 @@ const updateEmployeeButton = document.getElementById("update");
 const request = new Request("http://localhost:3000/employees");
 const ui = new UI();
 
+let updateState = null;
+
 eventListener();
 
 function eventListener() {
   document.addEventListener("DOMContentLoaded", getAllEmployees);
   form.addEventListener("submit", addEmployee);
   employeesList.addEventListener("click", updateOrDelete);
+  updateEmployeeButton.addEventListener("click", updateEmployee);
 }
 
 function getAllEmployees() {
@@ -53,15 +56,44 @@ function addEmployee(e) {
   ui.clearInput();
   e.preventDefault();
 }
+
 function updateOrDelete(e) {
   if (e.target.id === "delete-employee") {
     deleteEmployee(e.target);
   } else if (e.target.id === "update-employee") {
-    updateEmployeeButton(e.target);
-  } else {
+    updateEmployeeController(e.target.parentElement.parentElement);
   }
-
   e.preventDefault();
+}
+
+function updateEmployeeController(targetEmployee) {
+  ui.toggleUpdateButton(targetEmployee);
+
+  if (updateState === null) {
+    updateState = {
+      updateId: targetEmployee.children[3].textContent,
+      updateParent: targetEmployee,
+    };
+  } else {
+    updateState = null;
+  }
+}
+
+function updateEmployee() {
+  if (updateState) {
+    //Update
+    const data = {
+      name: nameInput.value.trim(),
+      department: departmentInput.value.trim(),
+      salary: Number(salaryInput.value.trim()),
+    };
+    request
+      .put(updateState.updateId, data)
+      .then((updatedEmployee) => {
+        ui.updateEmployeeOnUI(updatedEmployee, updateState.updateParent);
+      })
+      .catch((err) => console.log(err));
+  }
 }
 
 function deleteEmployee(targetEmployee) {
@@ -70,9 +102,12 @@ function deleteEmployee(targetEmployee) {
       .textContent;
   request
     .delete(id)
-    .then((message) => {ui.deleteEmployeeFromUI(targetEmployee.parentElement.parentElement)})
+    .then((message) => {
+      ui.deleteEmployeeFromUI(targetEmployee.parentElement.parentElement);
+    })
     .catch((err) => console.log(err));
 }
+
 // request
 //   .get()
 //   .then((employees) => console.log(employees))
