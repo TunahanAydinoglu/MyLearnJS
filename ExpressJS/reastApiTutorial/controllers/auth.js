@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const CustomError = require('../helpers/errors/CustomError')
 
 const register = async (req, res, next) => {
   //POST DATA
@@ -25,7 +26,8 @@ const register = async (req, res, next) => {
 };
 
 const errorTest = (req, res, next) => {
-  throw new Error("some error");
+  // throw new Error("some error");
+  return next(new CustomError("Custom Error Message",400))
 };
 
 module.exports = {
