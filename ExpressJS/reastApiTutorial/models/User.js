@@ -9,7 +9,7 @@ const UserSchema = new Schema({
   },
   email: {
     type: String,
-    required: true,
+    required: [true, "Plase provide a email"],
     unique: true,
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
@@ -18,8 +18,8 @@ const UserSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ["user", "admin"],
     default: "user",
+    enum: ["user", "admin"],
   },
   password: {
     type: String,

@@ -16,6 +16,9 @@ connectDatabase();
 
 const app = express();
 
+//Express - Body Middleware
+app.use(express.json());
+
 const PORT = process.env.PORT;
 
 // app.get("/api/questions", (req, res) => {
