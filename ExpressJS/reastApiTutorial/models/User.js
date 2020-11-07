@@ -52,5 +52,9 @@ const UserSchema = new Schema({
     default: false,
   },
 });
+UserSchema.pre("save", function (next) {
+  console.log("Pro hooks - Save");
+  next();
+});
 
 module.exports = mongoose.model("User", UserSchema);

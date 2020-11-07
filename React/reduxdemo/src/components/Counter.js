@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
@@ -19,7 +18,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Counter);
-=======
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
@@ -41,4 +39,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Counter);
->>>>>>> Stashed changes
