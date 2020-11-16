@@ -21,7 +21,6 @@ const getAccessToRoutes = (req, res, next) => {
       console.log(decoded);
       next();
   });
-  //CustomError
 };
 module.exports = {
   getAccessToRoutes,
