@@ -66,11 +66,39 @@ const logout = asyncErrorWrapper(async (req, res, next) => {
 });
 
 const imageUpload = asyncErrorWrapper(async (req, res, next) => {
+  // db update
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      profile_image: req.savedProfileImage,
+    },
+    { new: true, runValidators: true }
+  );
 
   res.status(200).json({
     success: true,
     message: "Image Upload Successful",
-  })
+    data: updatedUser,
+  });
+});
+
+const forgotPassword = asyncErrorWrapper(async (req, res, next) => {
+  const resetEmail = req.body.email;
+
+  const user = await User.findOne({ email: resetEmail });
+
+  if (!user) {
+    return next(new CustomError("There is no user with that email"), 400);
+  }
+
+  const resetPasswordToken = user.getResetPasswordTokenFromUser();
+
+  await user.save();
+
+  res.json({
+    success: true,
+    message: "Token send to your email address",
+  });
 });
 
 module.exports = {
@@ -79,4 +107,5 @@ module.exports = {
   login,
   logout,
   imageUpload,
+  forgotPassword,
 };
