@@ -6,6 +6,7 @@ const {
   validateUserInput,
   comparePassword,
 } = require("../helpers/input/inputHelpers");
+const sendEmail = require("../helpers/libraries/sendEmail");
 
 const register = asyncErrorWrapper(async (req, res, next) => {
   // //POST DATA
@@ -83,6 +84,7 @@ const imageUpload = asyncErrorWrapper(async (req, res, next) => {
 });
 
 const forgotPassword = asyncErrorWrapper(async (req, res, next) => {
+  const { URL } = process.env;
   const resetEmail = req.body.email;
 
   const user = await User.findOne({ email: resetEmail });
@@ -95,10 +97,32 @@ const forgotPassword = asyncErrorWrapper(async (req, res, next) => {
 
   await user.save();
 
-  res.json({
-    success: true,
-    message: "Token send to your email address",
-  });
+  const resetPasswordUrl = `${URL}/api/auth/resetPassword?resetPasswordToken=${resetPasswordToken}`;
+
+  const emailTemplate = `
+  <h3>Reset Your Password</h3>
+  <p> This <a href="${resetPasswordUrl}" target = "_blank">Reset</a> will expre in 1 hour</p>
+  `;
+
+  try {
+    await sendEmail({
+      from: process.env.SMTP_USER,
+      to: resetEmail,
+      subject: "Reset Your Password",
+      html: emailTemplate,
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Token send to your email address",
+    });
+  } catch (err) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+
+    return next(new CustomError("Email could not be Sent", 500));
+  }
 });
 
 module.exports = {
