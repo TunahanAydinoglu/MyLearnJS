@@ -93,7 +93,7 @@ const forgotPassword = asyncErrorWrapper(async (req, res, next) => {
     return next(new CustomError("There is no user with that email"), 400);
   }
 
-  const resetPasswordToken = user.getResetPasswordTokenFromUser();
+  const resetPasswordToken = await user.getResetPasswordTokenFromUser();
 
   await user.save();
 
@@ -124,6 +124,33 @@ const forgotPassword = asyncErrorWrapper(async (req, res, next) => {
     return next(new CustomError("Email could not be Sent", 500));
   }
 });
+const resetPassword = asyncErrorWrapper(async (req, res, next) => {
+  const { resetPasswordToken } = req.query;
+  const { password } = req.body;
+
+  if (!resetPasswordToken) {
+    return next(new CustomError("Please provide a valid token", 400));
+  }
+
+  let user = await User.findOne({
+    resetPasswordToken: resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+  if(!user){
+    return next(new CustomError("Invalid Token or Session expired", 400));
+  }
+
+  user.password = password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+
+  await user.save();
+
+  return res.status(200).json({
+    success: true,
+    message: "Reset password process success",
+  });
+});
 
 module.exports = {
   register,
@@ -132,4 +159,5 @@ module.exports = {
   logout,
   imageUpload,
   forgotPassword,
+  resetPassword,
 };
