@@ -136,7 +136,7 @@ const resetPassword = asyncErrorWrapper(async (req, res, next) => {
     resetPasswordToken: resetPasswordToken,
     resetPasswordExpire: { $gt: Date.now() },
   });
-  if(!user){
+  if (!user) {
     return next(new CustomError("Invalid Token or Session expired", 400));
   }
 
@@ -151,6 +151,17 @@ const resetPassword = asyncErrorWrapper(async (req, res, next) => {
     message: "Reset password process success",
   });
 });
+const editDetails = asyncErrorWrapper(async (req, res, next) => {
+  const editInfirmations = req.body;
+
+  const user = await User.findByIdAndUpdate(req.user.id, editInfirmations, {
+    new: true,
+    runValidators: true,
+  });
+
+  return res.status(200).json({success: true,data: user});
+
+});
 
 module.exports = {
   register,
@@ -160,4 +171,5 @@ module.exports = {
   imageUpload,
   forgotPassword,
   resetPassword,
+  editDetails,
 };
